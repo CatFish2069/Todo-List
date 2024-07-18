@@ -68,22 +68,19 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center bg-black text-gold font-bahnschrift">
-      <h1 className="font-bold text-3xl text-yellow-400 mb-5">
+    <div className="h-screen flex flex-col justify-center items-center bg-black text-white font-serif">
+      <h1 className="font-bold text-3xl text-blue-400 mb-5 drop-shadow-lg">
         Todo List using MERN
       </h1>
 
       {/* Container for Inputs */}
-      <div className="border-2 border-gray-700 w-[300px] flex justify-center items-center flex-col rounded-lg bg-gray-900 p-4 transition duration-300 hover:shadow-lg">
+      <div className="border-2 border-gray-700 w-[300px] flex justify-center items-center flex-col rounded-lg bg-gray-900 p-4 shadow-md">
         <div className="w-full p-2">
-          <label
-            className="block text-gray-300 text-sm font-bold mb-2"
-            htmlFor="title-input"
-          >
+          <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="title-input">
             Title
           </label>
           <input
-            className="custom-input w-full px-3 py-2 bg-white border border-gray-600 rounded focus:outline-none focus:border-yellow-400"
+            className="custom-input w-full px-3 py-2 bg-white border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-black"
             placeholder="Enter title"
             type="text"
             id="title-input"
@@ -93,14 +90,11 @@ const App = () => {
         </div>
 
         <div className="w-full p-2">
-          <label
-            className="block text-gray-300 text-sm font-bold mb-2"
-            htmlFor="description-input"
-          >
+          <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="description-input">
             Description
           </label>
           <input
-            className="custom-input w-full px-3 py-2 bg-white border border-gray-600 rounded focus:outline-none focus:border-yellow-400"
+            className="custom-input w-full px-3 py-2 bg-white border border-gray-600 rounded focus:outline-none focus:border-yellow-400 text-black"
             placeholder="Enter description"
             type="text"
             id="description-input"
@@ -112,14 +106,14 @@ const App = () => {
         {/* Conditional rendering of buttons based on whether an update is in progress */}
         {!updateId ? (
           <button
-            className="w-full bg-yellow-400 text-black rounded-lg mt-3 py-2 px-4 hover:bg-yellow-500 transition duration-300 shadow-lg"
+            className="w-full bg-blue-500 text-black rounded-lg mt-3 py-2 px-4 hover:shadow-md"
             onClick={addTodo}
           >
             Add
           </button>
         ) : (
           <button
-            className="w-full bg-yellow-400 text-black rounded-lg mt-3 py-2 px-4 hover:bg-yellow-500 transition duration-300 shadow-lg"
+            className="w-full bg-blue-500 text-black rounded-lg mt-3 py-2 px-4 hover:shadow-md"
             onClick={updateTodo}
           >
             Update
@@ -129,33 +123,26 @@ const App = () => {
 
       {/* Todo Container */}
       <div className="mt-4 grid grid-cols-3 gap-4">
-        {list.map((todo, index) => (
+        {list.map((todo) => (
           <div
-            className="w-[300px] bg-gray-900 text-gray-300 border border-gray-700 p-4 rounded-lg shadow-md transition duration-300 hover:shadow-lg"
-            key={index}
-            style={{
-              background: `linear-gradient(135deg, #2b2e3b, #1d1f29)`,
-            }}
+            className="w-[300px] bg-gray-900 text-gray-300 border border-gray-700 p-4 rounded-lg shadow-md hover:shadow-lg"
+            key={todo._id}
           >
             <div className="text-lg font-semibold capitalize rounded-md mb-2 text-yellow-500">
               {todo.title}
             </div>
-            <div className="rounded-md mb-2 text-gray-400">
-              {todo.description}
-            </div>
+            <div className="rounded-md mb-2">{todo.description}</div>
 
             <div className="flex justify-center space-x-10">
               <button
-                className="rounded-md border-2 border-black bg-gray-800 hover:bg-gray-700 text-yellow-400 hover:text-yellow-300 duration-300 py-2 px-3"
+                className="rounded-md border-2 border-black bg-gray-800 hover:bg-gray-700 text-yellow-400 hover:text-yellow-300 py-2 px-3"
                 onClick={() => deleteTodo(todo._id)}
               >
                 Delete
               </button>
               <button
-                className="rounded-md border-2 border-black bg-gray-800 hover:bg-gray-700 text-yellow-400 hover:text-yellow-300 duration-300 py-2 px-3"
-                onClick={() =>
-                  handleUpdateClick(todo._id, todo.title, todo.description)
-                }
+                className="rounded-md border-2 border-black bg-gray-800 hover:bg-gray-700 text-yellow-400 hover:text-yellow-300 py-2 px-3"
+                onClick={() => handleUpdateClick(todo._id, todo.title, todo.description)}
               >
                 Update
               </button>
