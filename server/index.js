@@ -14,10 +14,7 @@ const PORT = process.env.PORT || 5000; // Default to port 5000 if PORT is not sp
 const MONGO_URL = process.env.MONGO_URL;
 
 // Database Connection
-mongoose.connect(MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(MONGO_URL)
 .then(() => console.log('Connected to Database'))
 .catch((error) => console.log('Error Connecting to Database: ', error));
 
