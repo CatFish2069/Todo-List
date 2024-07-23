@@ -14,81 +14,86 @@ const PORT = process.env.PORT || 5000; // Default to port 5000 if PORT is not sp
 const MONGO_URL = process.env.MONGO_URL;
 
 // Database Connection
-mongoose.connect(MONGO_URL)
-.then(() => console.log('Connected to Database'))
-.catch((error) => console.log('Error Connecting to Database: ', error));
+mongoose
+  .connect(MONGO_URL)
+  .then(() => console.log("Connected to Database"))
+  .catch((error) => console.log("Error Connecting to Database: ", error));
 
-app.get('/', (req, res) => {
-    res.send("Server is Running");
+app.get("/", (req, res) => {
+  res.send("Server is Running");
 });
 
 // Create Todo
-app.post('/create', async (req, res) => {
-    // Grab Data from Frontend
-    const { title, description } = req.body;
+app.post("/create", async (req, res) => {
+  // Grab Data from Frontend
+  const { title, description } = req.body;
 
-    // Creating a new Object
-    const todo = new todoModel({
-        title: title,
-        description: description,
-    });
+  // Creating a new Object
+  const todo = new todoModel({
+    title: title,
+    description: description,
+  });
 
-    // Save data to DB
-    try {
-        await todo.save();
-        res.status(201).send("Todo Created Successfully");
-    } catch (error) {
-        console.log("Error creating todo: ", error);
-        res.status(500).send("Failed to create todo");
-    }
+  // Save data to DB
+  try {
+    await todo.save();
+    res.status(201).send("Todo Created Successfully");
+  } catch (error) {
+    console.log("Error creating todo: ", error);
+    res.status(500).send("Failed to create todo");
+  }
 });
 
 // Get Todo
 app.get("/get", async (req, res) => {
-    try {
-        const todos = await todoModel.find({});
-        res.status(200).json(todos);
-    } catch (error) {
-        console.log("Error fetching todos: ", error);
-        res.status(500).send("Failed to fetch todos");
-    }
+  try {
+    const todos = await todoModel.find({});
+    res.status(200).json(todos);
+  } catch (error) {
+    console.log("Error fetching todos: ", error);
+    res.status(500).send("Failed to fetch todos");
+  }
 });
 
 // Delete Todo
-app.delete('/delete/:id', async (req, res) => {
-    const id = req.params.id;
+app.delete("/delete/:id", async (req, res) => {
+  const id = req.params.id;
 
-    try {
-        await todoModel.findByIdAndDelete(id);
-        res.status(200).send('Todo Deleted');
-    } catch (error) {
-        console.log("Error deleting todo: ", error);
-        res.status(500).send("Failed to delete todo");
-    }
+  try {
+    await todoModel.findByIdAndDelete(id);
+    res.status(200).send("Todo Deleted");
+  } catch (error) {
+    console.log("Error deleting todo: ", error);
+    res.status(500).send("Failed to delete todo");
+  }
 });
 
 // Update Todo
-app.put('/update/:id', async (req, res) => {
-    const { newTitle, newDescription } = req.body;
-    const id = req.params.id;
+app.put("/update/:id", async (req, res) => {
+  const { newTitle, newDescription } = req.body;
+  const id = req.params.id;
 
-    try {
-        const todo = await todoModel.findByIdAndUpdate(id, {
-            title: newTitle,
-            description: newDescription
-        }, { new: true });
+  try {
+    const todo = await todoModel.findByIdAndUpdate(
+      id,
+      {
+        title: newTitle,
+        description: newDescription,
+      },
+      { new: true }
+    );
 
-        if (!todo) {
-            return res.status(404).send('Todo Not found');
-        }
-
-        res.status(200).send(todo);
-    } catch (error) {
-        console.log("Error updating todo: ", error);
-        res.status(500).send('Internal server error');
+    if (!todo) {
+      return res.status(404).send("Todo Not found");
     }
+
+    res.status(200).send(todo);
+  } catch (error) {
+    console.log("Error updating todo: ", error);
+    res.status(500).send("Internal server error");
+  }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server Running on http://localhost:${PORT}`);
+  console.log(`Server Running on http://localhost:${PORT}`);
 });
